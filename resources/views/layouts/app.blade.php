@@ -59,11 +59,12 @@
                     penyelenggara profesional.</p>
             </div>
             <div>
+            
                 <h4 class="text-white font-bold mb-6">Kategori</h4>
                 <ul class="space-y-4">
-                    <li><a href="/?category=seminar" class="hover:text-white transition">Seminar</a></li>
-                    <li><a href="/?category=konser" class="hover:text-white transition">Konser</a></li>
-                    <li><a href="/?category=workshop" class="hover:text-white transition">Workshop</a></li>
+                     @foreach($categories as $cat)
+                    <li><a href="/?category={{ $cat->slug }}" class="hover:text-white transition">{{ $cat->name }}</a></li>
+                    @endforeach
                 </ul>
             </div>
             <div>
