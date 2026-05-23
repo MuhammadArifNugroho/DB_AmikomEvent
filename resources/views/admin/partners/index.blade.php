@@ -10,7 +10,6 @@
     {{-- FORM TAMBAH PARTNER --}}
     <div class="bg-white rounded-[32px] shadow-sm border border-slate-100 p-8">
 
-        {{-- HEADER --}}
         <div class="mb-8">
 
             <h2 class="text-3xl font-black text-slate-900">
@@ -23,20 +22,16 @@
 
         </div>
 
-        {{-- FORM --}}
         <form action="/admin/partners" method="POST">
 
             @csrf
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
 
-                {{-- NAMA PARTNER --}}
                 <div class="md:col-span-2">
 
                     <label class="block text-sm font-extrabold uppercase tracking-wide text-slate-700 mb-3">
-
                         Nama Partner
-
                     </label>
 
                     <input type="text"
@@ -47,13 +42,10 @@
 
                 </div>
 
-                {{-- LOGO URL --}}
                 <div>
 
                     <label class="block text-sm font-extrabold uppercase tracking-wide text-slate-700 mb-3">
-
                         Logo URL
-
                     </label>
 
                     <input type="text"
@@ -65,13 +57,10 @@
 
                 </div>
 
-                {{-- PREVIEW LOGO --}}
                 <div>
 
                     <label class="block text-sm font-extrabold uppercase tracking-wide text-slate-700 mb-3">
-
                         Preview Logo
-
                     </label>
 
                     <div class="bg-slate-50 border border-slate-200 rounded-2xl p-4 flex items-center justify-center h-[88px]">
@@ -86,7 +75,6 @@
 
             </div>
 
-            {{-- BUTTON --}}
             <div class="flex justify-end gap-4 border-t border-slate-100 pt-6 mt-10">
 
                 <button type="reset"
@@ -112,30 +100,54 @@
     {{-- TABLE PARTNER --}}
     <div class="bg-white rounded-[32px] shadow-sm border border-slate-100 overflow-hidden">
 
-        {{-- HEADER TABLE --}}
-        <div class="p-8 border-b border-slate-100 flex justify-between items-center">
+        <div class="p-8 border-b border-slate-100">
 
-            <div>
+            <div class="flex flex-col md:flex-row md:justify-between md:items-center gap-4 mb-6">
 
-                <h2 class="text-2xl font-black text-slate-900">
-                    List Partner
-                </h2>
+                <div>
 
-                <p class="text-slate-500 mt-1">
-                    Daftar partner yang mendukung platform event.
-                </p>
+                    <h2 class="text-2xl font-black text-slate-900">
+                        List Partner
+                    </h2>
+
+                    <p class="text-slate-500 mt-1">
+                        Daftar partner yang mendukung platform event.
+                    </p>
+
+                </div>
+
+                <div class="bg-indigo-50 text-indigo-700 px-4 py-2 rounded-2xl text-sm font-bold">
+
+                    Total: {{ count($partners) }} Partner
+
+                </div>
 
             </div>
 
-            <div class="bg-indigo-50 text-indigo-700 px-4 py-2 rounded-2xl text-sm font-bold">
+            {{-- SEARCH --}}
+            <form action="/admin/partners" method="GET">
 
-                Total: {{ count($partners) }} Partner
+                <div class="flex flex-col md:flex-row gap-3">
 
-            </div>
+                    <input type="text"
+                           name="search"
+                           value="{{ request('search') }}"
+                           placeholder="Cari partner..."
+                           class="w-full md:w-96 bg-slate-50 border border-slate-200 rounded-2xl px-5 py-3 focus:outline-none focus:ring-2 focus:ring-indigo-500">
+
+                    <button type="submit"
+                            class="bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-3 rounded-2xl font-bold transition">
+
+                        Cari
+
+                    </button>
+
+                </div>
+
+            </form>
 
         </div>
 
-        {{-- TABLE --}}
         <div class="overflow-x-auto">
 
             <table class="w-full">
@@ -170,14 +182,10 @@
 
                     <tr class="border-b border-slate-100 hover:bg-slate-50 transition">
 
-                        {{-- NO --}}
                         <td class="px-6 py-5 font-semibold text-slate-700">
-
                             {{ $loop->iteration }}
-
                         </td>
 
-                        {{-- LOGO --}}
                         <td class="px-6 py-5">
 
                             <img src="{{ $partner->logo_url }}"
@@ -185,29 +193,22 @@
 
                         </td>
 
-                        {{-- NAMA --}}
                         <td class="px-6 py-5">
 
                             <div class="font-bold text-slate-800">
-
                                 {{ $partner->name }}
-
                             </div>
 
                             <div class="text-sm text-slate-400">
-
                                 Partner Event
-
                             </div>
 
                         </td>
 
-                        {{-- ACTION --}}
                         <td class="px-6 py-5">
 
                             <div class="flex gap-3">
 
-                                {{-- EDIT --}}
                                 <a href="/admin/partners/{{ $partner->id }}/edit"
                                    class="bg-yellow-400 hover:bg-yellow-500 text-white px-5 py-2.5 rounded-xl text-sm font-bold transition shadow-sm">
 
@@ -215,7 +216,6 @@
 
                                 </a>
 
-                                {{-- DELETE --}}
                                 <form action="/admin/partners/{{ $partner->id }}"
                                       method="POST">
 
@@ -245,7 +245,7 @@
                         <td colspan="4"
                             class="text-center py-16 text-slate-400">
 
-                            Belum ada data partner
+                            Tidak ada partner yang ditemukan
 
                         </td>
 
@@ -262,5 +262,18 @@
     </div>
 
 </div>
+
+<script>
+
+const logoInput = document.getElementById('logoInput');
+const logoPreview = document.getElementById('logoPreview');
+
+logoInput.addEventListener('input', function () {
+
+    logoPreview.src = this.value || 'https://placehold.co/200x200';
+
+});
+
+</script>
 
 @endsection

@@ -43,6 +43,25 @@
                 </svg>
                 Laporan Transaksi
             </a>
+              <a href="{{ route('admin.categories.index') }}"
+        class="flex items-center gap-3 px-4 py-3 {{ request()->routeIs('admin.categories.*') ? 'bg-indigo-800 text-white' : 'hover:bg-indigo-800' }} rounded-xl font-bold transition">
+
+            <svg class="w-5 h-5 {{ request()->routeIs('admin.categories.*') ? 'text-indigo-300' : 'text-indigo-400' }}"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24">
+
+                <path stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M7 7h10M7 12h10M7 17h10M5 7h.01M5 12h.01M5 17h.01">
+                </path>
+
+            </svg>
+
+            Kategori
+
+        </a>
             <a href="/admin/partners" 
             class="flex items-center gap-3 px-4 py-3 {{ request()->is('admin/partners*') ? 'bg-indigo-800 text-white' : 'hover:bg-indigo-800' }} rounded-xl font-bold transition">
 
@@ -62,6 +81,7 @@
                 Partners
 
 </a>
+      
             
         </nav>
 

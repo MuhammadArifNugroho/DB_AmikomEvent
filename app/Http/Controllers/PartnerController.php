@@ -7,9 +7,15 @@ use App\Models\Partner;
 
 class PartnerController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $partners = Partner::all();
+        $search = $request->search;
+
+        $partners = Partner::when($search, function ($query) use ($search) {
+            $query->where('name', 'LIKE', '%' . $search . '%');
+        })
+        ->latest()
+        ->get();
 
         return view('admin.partners.index', compact('partners'));
     }
