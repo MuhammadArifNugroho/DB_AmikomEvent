@@ -5,6 +5,8 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\EventController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\EventController as EventAdminController;
+use App\Http\Controllers\PartnerController;
+use App\Http\Controllers\Admin\CategoryController;
 
 
 
@@ -14,10 +16,18 @@ Route::get('/event/1', [EventController::class,'show'])->name('events.show');
 Route::get('/checkout', [EventController::class,'checkout'])->name('checkout');
 Route::get('/my-ticket', [EventController::class, 'ticket'])->name('ticket');
 
+Route::get('/admin/partners', [PartnerController::class, 'index']);
+Route::post('/admin/partners', [PartnerController::class, 'store']);
+
+Route::get('/admin/partners/{id}/edit', [PartnerController::class, 'edit']);
+Route::put('/admin/partners/{id}', [PartnerController::class, 'update']);
+
+Route::delete('/admin/partners/{id}', [PartnerController::class, 'destroy']);
+
 Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
     // Catatan: Dashboard & Login Auth di kemudian hari akan menempati blok ini juga
     Route::resource('events', EventAdminController::class);
-
+    Route::resource('categories', CategoryController::class);
     Route::get('/', [DashboardController::class,'index'])->name('dashboard');
     Route::get('/transactions', [DashboardController::class,'indexTransaction'])->name('transactions.index');
     // dan seterusnya...
