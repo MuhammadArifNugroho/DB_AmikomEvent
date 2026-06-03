@@ -7,8 +7,37 @@ use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\EventController as EventAdminController;
 use App\Http\Controllers\PartnerController;
 use App\Http\Controllers\Admin\CategoryController;
+use App\Http\Controllers\Admin\AuthController;
 
+// Rute Admin Area
+Route::prefix('admin')->name('admin.')->group(function () {
 
+    Route::get('/', function () {
+
+        if (auth()->check()) {
+            return redirect()->route('admin.dashboard');
+        }
+
+        return redirect()->route('admin.login');
+    });
+
+    Route::get('login', [AuthController::class, 'showLogin'])->name('login');
+    Route::post('login', [AuthController::class, 'login'])->name('login.post');
+    Route::post('logout', [AuthController::class, 'logout'])->name('logout');
+
+    Route::middleware(['auth', 'admin'])->group(function () {
+
+        Route::get('dashboard', [DashboardController::class, 'index'])
+            ->name('dashboard');
+
+        Route::resource('events', EventAdminController::class);
+        Route::resource('categories', CategoryController::class);
+        Route::resource('partners', PartnerController::class);
+
+        Route::get('transactions', [TransactionController::class, 'index'])
+            ->name('transactions.index');
+    });
+});
 
 // Rute User Area
 Route::get('/', [HomeController::class, 'index'])->name('home');
@@ -24,11 +53,4 @@ Route::put('/admin/partners/{id}', [PartnerController::class, 'update']);
 
 Route::delete('/admin/partners/{id}', [PartnerController::class, 'destroy']);
 
-Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
-    // Catatan: Dashboard & Login Auth di kemudian hari akan menempati blok ini juga
-    Route::resource('events', EventAdminController::class);
-    Route::resource('categories', CategoryController::class);
-    Route::get('/', [DashboardController::class,'index'])->name('dashboard');
-    Route::get('/transactions', [DashboardController::class,'indexTransaction'])->name('transactions.index');
-    // dan seterusnya...
-});
+
