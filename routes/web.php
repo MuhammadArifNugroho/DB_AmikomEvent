@@ -1,13 +1,16 @@
 <?php
-
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\EventController;
-use App\Http\Controllers\Admin\DashboardController;
-use App\Http\Controllers\Admin\EventController as EventAdminController;
-use App\Http\Controllers\PartnerController;
-use App\Http\Controllers\Admin\CategoryController;
+use App\Http\Controllers\TicketController;
 use App\Http\Controllers\Admin\AuthController;
+use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\EventsController;
+use App\Http\Controllers\Admin\TransactionController;
+use App\Http\Controllers\Admin\CategoryController;
+use App\Http\Controllers\Admin\EventController as EventAdminController;
+use App\Http\Controllers\Admin\PartnerController;
+
 
 // Rute Admin Area
 Route::prefix('admin')->name('admin.')->group(function () {
@@ -39,18 +42,18 @@ Route::prefix('admin')->name('admin.')->group(function () {
     });
 });
 
+
 // Rute User Area
 Route::get('/', [HomeController::class, 'index'])->name('home');
-Route::get('/event/1', [EventController::class,'show'])->name('events.show');
+Route::get('/events/{event}', [\App\Http\Controllers\EventController::class, 'show'])->name('events.show');
 Route::get('/checkout', [EventController::class,'checkout'])->name('checkout');
-Route::get('/my-ticket', [EventController::class, 'ticket'])->name('ticket');
+Route::get('/my-ticket', [TicketController::class, 'show'])->name('ticket');
 
-Route::get('/admin/partners', [PartnerController::class, 'index']);
-Route::post('/admin/partners', [PartnerController::class, 'store']);
+Route::get('/bantuan', [HomeController::class, 'bantuan'])->name('bantuan');
+Route::get('/contact', [HomeController::class, 'contact'])->name('contact');
+Route::get('/profil', [HomeController::class, 'profil'])->name('profil');
+Route::get('/katalog', [HomeController::class, 'katalog'])->name('katalog');
 
-Route::get('/admin/partners/{id}/edit', [PartnerController::class, 'edit']);
-Route::put('/admin/partners/{id}', [PartnerController::class, 'update']);
-
-Route::delete('/admin/partners/{id}', [PartnerController::class, 'destroy']);
-
-
+Route::get('/login', function() {
+    return redirect()->route('admin.login');
+})->name('login');
