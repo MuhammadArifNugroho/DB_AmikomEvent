@@ -56,7 +56,9 @@ Route::get('/bantuan', [HomeController::class, 'bantuan'])->name('bantuan');
 Route::get('/contact', [HomeController::class, 'contact'])->name('contact');
 Route::get('/profil', [HomeController::class, 'profil'])->name('profil');
 Route::get('/katalog', [HomeController::class, 'katalog'])->name('katalog');
-
+Route::get('/payment/{order_id}', [\App\Http\Controllers\CheckoutController::class, 'payment'])->name('checkout.payment');
+Route::get('/success/{order_id}', [\App\Http\Controllers\CheckoutController::class, 'success'])->name('checkout.success');
 Route::get('/login', function() {
     return redirect()->route('admin.login');
 })->name('login');
+
